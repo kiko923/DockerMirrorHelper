@@ -2,6 +2,9 @@
 
 echo -e "\033[1;34m==== Docker 镜像源一键切换 ====\033[0m"
 
+# 远程配置文件地址（你的配置文件地址）
+CONFIG_URL="https://cdn.jsdelivr.net/gh/kiko923/DockerMirrorHelper@main/mirrors.json"
+
 # 检测是否安装 Docker
 if ! command -v docker &> /dev/null; then
     echo -e "\033[1;31m[错误] 未检测到 Docker，请先安装后再运行此脚本。\033[0m"
@@ -19,20 +22,30 @@ if [ -f "$CONFIG_FILE" ]; then
     echo -e "\033[1;34m[✔] 已备份原 Docker 配置文件到: $BACKUP_FILE\033[0m"
 fi
 
-# 写入新配置（包含 dockerpull.cn 和 dockerpull.pw）
-mkdir -p /etc/docker
-cat > "$CONFIG_FILE" <<EOF
-{
-  "registry-mirrors": [
-    "https://dockerpull.cn",
-    "https://dockerpull.pw"
-  ]
-}
-EOF
+# 下载远程镜像源配置
+echo -e "\033[1;33m[⏳] 正在从远程仓库获取镜像源...\033[0m"
+if command -v curl &> /dev/null; then
+    MIRRORS_JSON=$(curl -fsSL "$CONFIG_URL")
+elif command -v wget &> /dev/null; then
+    MIRRORS_JSON=$(wget -qO- "$CONFIG_URL")
+else
+    echo -e "\033[1;31m[错误] 未找到 curl 或 wget，请手动下载配置文件。\033[0m"
+    exit 1
+fi
 
-echo -e "\033[1;32m[✔] Docker 镜像源已成功替换为：\033[0m"
-echo -e "\033[1;36m    ➜ https://dockerpull.cn\033[0m"
-echo -e "\033[1;36m    ➜ https://dockerpull.pw\033[0m"
+# 检查是否成功获取到 JSON
+if [[ -z "$MIRRORS_JSON" ]]; then
+    echo -e "\033[1;31m[错误] 无法获取远程配置文件，请检查网络或仓库地址。\033[0m"
+    exit 1
+fi
+
+# 写入新的 Docker 配置
+mkdir -p /etc/docker
+echo "$MIRRORS_JSON" > "$CONFIG_FILE"
+
+echo -e "\033[1;32m[✔] Docker 镜像源已成功替换！\033[0m"
+echo -e "\033[1;36m    配置文件内容：\033[0m"
+echo "$MIRRORS_JSON" | jq .
 
 # 输出正在重启 Docker
 echo -e "\033[1;33m[⏳] 正在重启 Docker...\033[0m"

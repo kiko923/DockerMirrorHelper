@@ -21,4 +21,4 @@
    你可以使用以下一键命令直接下载并运行脚本：
 
    ```bash
-   bash <(curl -fsSL https://cdn.jsdelivr.net/gh/kiko923/DockerMirrorHelper@main/main.sh)
+   bash <(curl -fsSL https://fastly.jsdelivr.net/gh/kiko923/DockerMirrorHelper@main/main.sh)

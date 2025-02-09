@@ -3,7 +3,7 @@
 echo -e "\033[1;34m==== Docker 镜像源一键切换 ====\033[0m"
 
 # 远程配置文件地址（你的配置文件地址）
-CONFIG_URL="https://cdn.jsdelivr.net/gh/kiko923/DockerMirrorHelper@main/mirrors.json"
+CONFIG_URL="https://fastly.jsdelivr.net/gh/kiko923/DockerMirrorHelper@main/mirrors.json"
 
 # 检测是否安装 Docker
 if ! command -v docker &> /dev/null; then

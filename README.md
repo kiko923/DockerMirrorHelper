@@ -22,5 +22,3 @@
 
    ```bash
    bash <(curl -fsSL https://cdn.jsdelivr.net/gh/kiko923/DockerMirrorHelper@main/main.sh)
-
-

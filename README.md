@@ -4,9 +4,10 @@
 
 ## 功能
 
+- 根据IP归属地判断使用国内或国外代码仓库
 - 检查系统是否安装 Docker。
-- 切换 Docker 镜像源为代理加速镜像。
 - 备份原 Docker 配置文件。
+- 切换 Docker 镜像源为代理加速镜像。
 - 自动重启 Docker 服务并应用新的镜像源配置。
 
 ## 系统要求
@@ -21,4 +22,4 @@
    你可以使用以下一键命令直接下载并运行脚本：
 
    ```bash
-   bash <(curl -fsSL https://fastly.jsdelivr.net/gh/kiko923/DockerMirrorHelper@main/main.sh)
+   bash <(curl -fsSL https://raw.gitcode.com/yionchi/DockerMirrorHelper/raw/main/main.sh)
